@@ -1,0 +1,59 @@
+// FileSorter.idl : IDL source for FileSorter
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (FileSorter.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(2929d7ce-6729-4e6c-ac76-3187bf6bfeab),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IFileSort : IDispatch
+{
+	[id(1), helpstring("Method set input file")] HRESULT SetInputFile([in] BSTR);
+ 	[id(2), helpstring("Method set output file")] HRESULT SetOutputFile([in] BSTR);
+	[id(3), helpstring("Method set type sort")] HRESULT SetMethodSort([in] int);
+	[id(4), helpstring("Method run sorting")] HRESULT Run();
+	[id(5), helpstring("Method Stop sorting")] HRESULT Stop();
+	[id(6), helpstring("Method get state")] HRESULT GetState([out, retval] int*);
+	[id(7), helpstring("Method get progress")] HRESULT GetProgress([out, retval] int*);
+
+};
+[
+	uuid(4295041b-13e5-41bb-b936-ee1b54af4dc1),
+	version(1.0),
+]
+
+
+library FileSorterLib
+{
+	importlib("stdole2.tlb");
+	
+	typedef enum FILE_SORT_METHOD {
+		FSM_ASC,
+		FSM_DESC
+	} FILE_SORT_METHOD;
+
+	typedef enum FILE_SORT_STATE {
+		FSS_CREATED,
+		FSS_RUNNING,
+		FSS_STOP,
+		FSS_FINISH
+	} FILE_SORT_STATE;
+
+	[
+		uuid(719c4c05-3e00-46f4-b0d5-24f81c5351e4)
+	]
+	coclass FileSort
+	{
+		[default] interface IFileSort;
+	};
+};
+
+import "shobjidl.idl";
